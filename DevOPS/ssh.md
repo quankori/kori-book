@@ -1,4 +1,4 @@
-# SSH
+# SSH CheatSheet
 
 - ### Generate SSH
 

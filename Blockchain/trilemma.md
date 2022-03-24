@@ -1,1 +1,1 @@
-# Trilemma
+# Blockchain Trilemma

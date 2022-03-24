@@ -1,4 +1,4 @@
-# Solidity cơ bản
+# Solidity Basic
 
 - ### Common function types
 
@@ -7,7 +7,7 @@
 | public   | Anyone can call this function                                      |
 | private  | Only this contract can call this fucntion                          |
 | view     | This function returns data and does not modify the contract's data |
-| constant | Same view                                                          |
+| constant | Same view but just for variable can't modifier                     |
 | pure     | Function will not modify or even read the contract's data          |
 | payable  | When someone call this function they might send ether along        |
 

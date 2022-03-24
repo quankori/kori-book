@@ -1,4 +1,4 @@
-# Git
+# GIT CheatSheet
 
 - Commit and push code
 

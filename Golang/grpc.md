@@ -1,4 +1,4 @@
-# gRPC
+# Golang gRPC
 
 - ### Define protocol buffers
 

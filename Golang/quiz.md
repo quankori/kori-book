@@ -1,4 +1,4 @@
-# Quiz
+# Golang Quiz
 
 - ### What is Golang?
 

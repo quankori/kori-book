@@ -1,2 +1,1 @@
-# kori-book
-Book of Kori 
+# Kori Book

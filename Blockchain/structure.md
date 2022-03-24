@@ -1,4 +1,4 @@
-# Blockchain cơ bản
+# Blockchain Structure
 
 - Cấu tạo một block
 

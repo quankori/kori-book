@@ -1,4 +1,4 @@
-# Cài đặt ứng dụng trên linux
+# Install package Linux
 
 - ### Debian Docker
 
