@@ -2,11 +2,11 @@
 
 - ### Gorountines
 
-1. Goroutines are extremely lightweight as compared to OS threads.
-2. stack size is very small of 2KB as opposed to 8MB of stack size for the OS threads.
+1. Goroutines cực kỳ nhẹ so với các luồng hệ điều hành.
+2. Kích thước ngăn xếp rất nhỏ 2KB so với 8MB kích thước ngăn xếp cho các luồng hệ điều hành.
 3. Context switching is very cheap as it happens in the user space.
-4. Goroutines have a very less state to be stored.
-5. Hundreds of thousands of goroutines can be created on single machhine
+4. Goroutines có rất ít state được lưu trữ.
+5. Hàng trăm nghìn goroutines có thể được tạo ra trên một máy machine.
 
 ```go
 func fun(s string) {
