@@ -120,6 +120,12 @@ sudo apt-get install ibus-bamboo
 ibus restart
 ```
 
+- ### Tree
+
+```bash
+sudo apt-get install tree
+```
+
 - ### NodeJS
 
 ```bash
@@ -150,4 +156,10 @@ sudo apt update
 sudo apt install software-properties-common
 sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
+```
+
+- ### Cargo
+
+```bash
+curl https://sh.rustup.rs -sSf | sh
 ```

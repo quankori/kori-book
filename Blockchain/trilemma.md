@@ -14,4 +14,4 @@
 
 - Riêng Ripple được thiết kế vào Security và Scalability, về mặt Decentralization họ sẽ tự quyết định ai sẽ là người tham gia vào mạng lưới.
 
-![Image](../images/1.png)
+![Image](https://raw.githubusercontent.com/quankori/kori-book/main/images/1.png)
