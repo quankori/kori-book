@@ -169,7 +169,7 @@ pub fn eat_at_restaurant() {
 ## Control flow
 
 ```rs
-// If else 
+// If else
 fn main() {
     let number = 3;
 
@@ -214,13 +214,129 @@ println!("The result is {}", result);
 
 ## Structs
 
+```rs
+fn main() {
+    let mut user1 = User {
+        email: String::from("someone@example.com"),
+        username: String::from("someusername123"),
+        active: true,
+        sign_in_count: 1,
+    };
+
+    user1.email = String::from("anotheremail@example.com");
+}
+```
+
 ## Traits
 
-## Collections
+Tên gọi khác của interface
+
+```rs
+trait Web {
+    fn publish(&self);
+    fn deletePost(&self) {
+        println!("Deleting post on this Web");
+    }
+}
+
+struct Blog {}
+impl Web for Blog {
+    fn publish(&self) {
+        println!("Publishing new post on blog");
+    }
+    fn deletePost(&self) {
+        println!("Deleting post on this Blog");
+    }
+}
+
+struct Forum {}
+impl Web for Forum {
+    fn publish(&self) {
+        println!("Publishing new post on forum");
+    }
+}
+
+fn main() {
+    let newBlog = Blog {};
+    let newForum = Forum {};
+    newBlog.deletePost();
+    newForum.deletePost();
+}
+```
+
+## Match
+
+```rs
+fn main() {
+    let monthNum: i32 = 4;
+    match monthNum {
+        1 => println!("January"),
+        2 => println!("February"),
+        3 => println!("March"),
+        4 => println!("April"),
+        5 => println!("May"),
+        6 => println!("June"),
+        7 => println!("July"),
+        8 => println!("August"),
+        9 => println!("September"),
+        10 => println!("October"),
+        11 => println!("November"),
+        12 => println!("December"),
+        _ => println!("Unknown"),
+    };
+}
+```
+
+## Vector
+
+```rs
+let mut v = Vec::new();
+v.push(5);
+v.push(6);
+v.push(7);
+v.push(8);
+let v = vec![1, 2, 3, 4, 5];
+
+let third: &i32 = &v[2];
+println!("The third element is {}", third);
+
+match v.get(2) {
+    Some(third) => println!("The third element is {}", third),
+    None => println!("There is no third element."),
+}
+```
+
+## HashMap
+
+```rs
+use std::collections::HashMap;
+
+let mut scores = HashMap::new();
+
+scores.insert(String::from("Blue"), 10);
+scores.insert(String::from("Yellow"), 50);
+```
 
 ## Enums
 
-## Closures
+```rs
+enum IpAddrKind {
+    V4,
+    V6,
+}
 
-## Threads
+struct IpAddr {
+    kind: IpAddrKind,
+    address: String,
+}
 
+let home = IpAddr {
+    kind: IpAddrKind::V4,
+    address: String::from("127.0.0.1"),
+};
+
+let loopback = IpAddr {
+    kind: IpAddrKind::V6,
+    address: String::from("::1"),
+};
+```
