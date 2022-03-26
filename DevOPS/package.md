@@ -1,6 +1,6 @@
 # Install package Linux
 
-- ### Debian Docker
+## Debian Docker
 
 Cài docker
 
@@ -26,7 +26,7 @@ Group docker khỏi chạy sudo
 newgrp docker
 ```
 
-- ### RedHat Docker
+## RedHat Docker
 
 Cài docker
 
@@ -43,7 +43,7 @@ Kích hoạt service
 systemctl start docker
 ```
 
-- ### Docker compose
+## Docker compose
 
 Cài đặt docker compose
 
@@ -57,19 +57,19 @@ Chmod file
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-- ### Neofetch
+## Neofetch
 
 ```bash
 sudo apt install neofetch
 ```
 
-- ### Htop
+## Htop
 
 ```bash
 sudo apt install htop
 ```
 
-- ### Net tools
+## Net tools
 
 ```bash
 sudo apt install net-tools
@@ -85,19 +85,19 @@ sudo apt install net-tools
 netstat -tulpn | grep LISTEN
 ```
 
-- ### VLC
+## VLC
 
 ```bash
 sudo apt install vlc
 ```
 
-- ### Media Codecs
+## Media Codecs
 
 ```bash
 sudo apt install ubuntu-restricted-extras
 ```
 
-- ### GNOME Tools
+## GNOME Tools
 
 ```bash
 sudo apt install gnome-tweaks
@@ -105,13 +105,13 @@ sudo apt install chrome-gnome-shell
 sudo apt install firefox-gnome-shell
 ```
 
-- ### Additional Archive Utilities
+## Additional Archive Utilities
 
 ```bash
 sudo apt install rar unrar p7zip-full p7zip-rar
 ```
 
-- ### Bamboo
+## Bamboo
 
 ```bash
 sudo add-apt-repository ppa:bamboo-engine/ibus-bamboo
@@ -120,13 +120,13 @@ sudo apt-get install ibus-bamboo
 ibus restart
 ```
 
-- ### Tree
+## Tree
 
 ```bash
 sudo apt-get install tree
 ```
 
-- ### NodeJS
+## NodeJS
 
 ```bash
 curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
@@ -135,7 +135,7 @@ sudo apt install nodejs
 sudo rm -rf nodesource_setup.sh
 ```
 
-- ### Golang
+## Golang
 
 ```bash
 wget -c https://dl.google.com/go/go1.14.2.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
@@ -143,13 +143,13 @@ export PATH=$PATH:/usr/local/go/bin
 go get github.com/pilu/fresh
 ```
 
-- ### VSCode
+## VSCode
 
 ```bash
 wget -qO- https://raw.githubusercontent.com/cra0zy/code-nautilus/master/install.sh | bash
 ```
 
-- ### Ansible
+## Ansible
 
 ```bash
 sudo apt update
@@ -158,7 +158,7 @@ sudo apt-add-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
 ```
 
-- ### Cargo
+## Cargo
 
 ```bash
 curl https://sh.rustup.rs -sSf | sh

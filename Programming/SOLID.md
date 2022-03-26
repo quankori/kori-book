@@ -1,6 +1,6 @@
 # SOLID Principle
 
-- ### S - Single Responsibility Principle
+## S - Single Responsibility Principle
 
 Một class chỉ nên giữ 1 trách nhiệm duy nhất (Chỉ có thể sửa đổi class với 1 lý do duy nhất)
 
@@ -27,7 +27,7 @@ public class Formatter {
 }
 ```
 
-- ### O - Open/Closed Principle
+## O - Open/Closed Principle
 
 Có thể mở rộng 1 class, nhưng không được sửa đổi bên trong class đó
 
@@ -53,7 +53,7 @@ public class Rectangle implements Shape {
 }
 ```
 
-- ### L - Liskov’s Substitution Principle
+## L - Liskov’s Substitution Principle
 
 Trong một chương trình, các object của class con có thể thay thế class cha mà không làm thay đổi tính đúng đắn của chương trình
 
@@ -72,11 +72,11 @@ public class Dog extends Animal {
 }
 ```
 
-- ### I - Interface Segregation Principle
+## I - Interface Segregation Principle
 
 Thay vì dùng 1 interface lớn, ta nên tách thành nhiều interface nhỏ, với các mục đích khác nhau
 
-- ### D - Dependency Inversion Principle
+## D - Dependency Inversion Principle
 
 1. Các module cấp cao không nên phụ thuộc vào các modules cấp thấp.
    Cả 2 nên phụ thuộc vào abstraction.

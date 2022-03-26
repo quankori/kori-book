@@ -1,6 +1,6 @@
 # Golang RESTful
 
-- ### Package
+## Package
 
 ```go
 import (
@@ -10,7 +10,7 @@ import (
 )
 ```
 
-- ### Model
+## Model
 
 ```go
 type People struct {
@@ -18,7 +18,7 @@ type People struct {
 }
 ```
 
-- ### Router
+## Router
 
 ```go
 func router() {
@@ -31,7 +31,7 @@ func router() {
 }
 ```
 
-- ### GET
+## GET
 
 ```go
 func get(w http.ResponseWriter, r *http.Request) {
@@ -40,7 +40,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-- ### POST
+## POST
 
 ```go
 func create(w http.ResponseWriter, r *http.Request) {
@@ -53,7 +53,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-- ### PUT
+## PUT
 
 ```go
 func create(w http.ResponseWriter, r *http.Request) {
@@ -74,7 +74,7 @@ func create(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-- ### DELETE
+## DELETE
 
 ```go
 func remove(w http.ResponseWriter, r *http.Request) {

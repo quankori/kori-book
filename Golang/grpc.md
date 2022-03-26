@@ -1,6 +1,6 @@
 # Golang gRPC
 
-- ### Define protocol buffers
+## Define protocol buffers
 
 ```go
 syntax = "proto3";
@@ -26,7 +26,7 @@ service MathService{
 }
 ```
 
-- ### Generate with arguments
+## Generate with arguments
 
 ```bash
 # protoc userspb/users.proto --go_out=plugins=grpc:.
@@ -46,7 +46,7 @@ do
 done
 ```
 
-- ### Server register
+## Server register
 
 ```go
 import (
@@ -74,7 +74,7 @@ func main() {
 }
 ```
 
-- ### Client register
+## Client register
 
 ```go
 import (
@@ -103,7 +103,7 @@ func main() {
 }
 ```
 
-- ### Unary
+## Unary
 
 ```go
 // Server
@@ -130,7 +130,7 @@ func callSum(c mathCalculator.MathServiceClient) {
 }
 ```
 
-- ### Server streaming
+## Server streaming
 
 ```go
 // Server
@@ -180,7 +180,7 @@ func callPND(c mathCalculator.MathServiceClient) {
 }
 ```
 
-- ### Client streaming
+## Client streaming
 
 ```go
 // Server
@@ -250,7 +250,7 @@ func callAverage(c mathCalculator.MathServiceClient) {
 }
 ```
 
-- ### Bidirectional streaming
+## Bidirectional streaming
 
 ```go
 // Server
@@ -343,7 +343,7 @@ func callFindMax(c mathCalculator.MathServiceClient) {
 }
 ```
 
-- ### Handle error
+## Handle error
 
 ```go
 // Server
@@ -383,7 +383,7 @@ func callSquareRoot(c mathCalculator.MathServiceClient, num int32) {
 }
 ```
 
-- ### Deadline
+## Deadline
 
 ```go
 // Server

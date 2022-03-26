@@ -11,3 +11,4 @@
 - Process use consensus algorithm choose the winner node, the winner node will collect unconfirmed transaction to one block and add to end of blockchain on memory node.
 
 - After winner node added to end of blockchain, it will deploy that blockchain to network P2P. Other node in network will be verify new block and clone blockchain to update memory.
+

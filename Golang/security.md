@@ -1,6 +1,6 @@
 # Golang Security
 
-- ### Base64
+## Base64
 
 ```go
 func Base64() {
@@ -28,7 +28,7 @@ func decode(encoded string) (string, error) {
 }
 ```
 
-- ### Bcrypt
+## Bcrypt
 
 ```go
 func Bcrypt() {
@@ -65,7 +65,7 @@ func comparePassword(password string, hashedPass []byte) error {
 }
 ```
 
-- ### HMAC
+## HMAC
 
 ```go
 
@@ -114,7 +114,7 @@ func checkSig(msg, sig []byte) (bool, error) {
 }
 ```
 
-- ### Json Web Token
+## Json Web Token
 
 ```go
 // UserClaims struct
@@ -181,7 +181,7 @@ func parseToken(signedToken string) (*UserClaims, error) {
 }
 ```
 
-- ### AES
+## AES
 
 ```go
 func AES() {
@@ -222,7 +222,7 @@ func encrypt(message, key []byte) ([]byte, error) {
 }
 ```
 
-- ### SHA256
+## SHA256
 
 ```go
 func SHA256() {

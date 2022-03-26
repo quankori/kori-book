@@ -1,6 +1,6 @@
 # Golang Basic
 
-- ### Variable
+## Variable
 
 ```go
 func Variable() {
@@ -12,7 +12,7 @@ func Variable() {
 }
 ```
 
-- ### Constant
+## Constant
 
 ```go
 func Constant() {
@@ -30,7 +30,7 @@ func Constant() {
 }
 ```
 
-- ### Function
+## Function
 
 ```go
 // Pass to float64 response function 2 float64
@@ -46,7 +46,7 @@ func Function() {
 }
 ```
 
-- ### Condition
+## Condition
 
 ```go
 func Condition() {
@@ -58,7 +58,7 @@ func Condition() {
 }
 ```
 
-- ### Loop
+## Loop
 
 ```go
 func Loop() {
@@ -73,7 +73,7 @@ func Loop() {
 }
 ```
 
-- ### Switch
+## Switch
 
 ```go
 func Switch() {
@@ -88,7 +88,7 @@ func Switch() {
 }
 ```
 
-- ### Array
+## Array
 
 ```go
 func Array() {
@@ -106,7 +106,7 @@ func Array() {
 }
 ```
 
-- ### Slices
+## Slices
 
 ```go
 func Slices() {
@@ -139,7 +139,7 @@ func Slices() {
 }
 ```
 
-- ### Error
+## Error
 
 ```go
 func getError(number int) (string, error) {
@@ -164,7 +164,7 @@ func Error() {
 }
 ```
 
-- ### Variadic
+## Variadic
 
 ```go
 func sum(nums ...int) {
@@ -187,7 +187,7 @@ func Variadic() {
 }
 ```
 
-- ### Maps
+## Maps
 
 ```go
 // Maps func
@@ -230,7 +230,7 @@ func Maps() {
 }
 ```
 
-- ### Pointer
+## Pointer
 
 ```go
 func Pointer() {
@@ -247,7 +247,7 @@ func Pointer() {
 }
 ```
 
-- ### Structs
+## Structs
 
 ```go
 // Person Defining a struct type
@@ -276,7 +276,7 @@ func Structures() {
 }
 ```
 
-- ### Methods
+## Methods
 
 ```go
 type rectangle struct {
@@ -318,7 +318,7 @@ func Methods() {
 }
 ```
 
-- ### Interfaces
+## Interfaces
 
 ```go
 type shape interface {
@@ -348,7 +348,7 @@ func Interfaces() {
 }
 ```
 
-- ### Defer
+## Defer
 
 ```go
 func Defer() {

@@ -1,6 +1,6 @@
-# BashScript  Basic
+# BashScript Basic
 
-- ### Variable
+## Variable
 
 ```bash
 #!/bin/bash
@@ -27,7 +27,7 @@ END=$(date +%s)
 DIFFERENCE=$((END - START))
 ```
 
-- ### Input
+## Input
 
 ```bash
 #!/bin/bash
@@ -46,7 +46,7 @@ read -sp "Your name: " NAME
 read HOSTNAME < /etc/hostname
 ```
 
-- ### Math
+## Math
 
 ```bash
 #!/bin/bash
@@ -68,7 +68,7 @@ RESULT=$(expr $NUMBER + 5)
 RESULT=`echo "$NUMBER * 1.9" | bc`
 ```
 
-- ### Arguments
+## Arguments
 
 ```bash
 #!/bin/bash
@@ -84,7 +84,7 @@ echo "\$@: $@"
 echo "Count: $#"
 ```
 
-- ### Piping
+## Piping
 
 ```bash
 #!/bin/bash
@@ -105,7 +105,7 @@ ls new.sh 2> error_msg
 cat file_1.txt | head -5
 ```
 
-- ### Conditional
+## Conditional
 
 ```bash
 #!/bin/bash
@@ -168,7 +168,7 @@ then
 fi
 ```
 
-- ### Wildcard
+## Wildcard
 
 ```bash
 #!/bin/bash
@@ -190,7 +190,7 @@ ls *[0-9]*
 # [[:class:]]: match ký tự định nghĩa bởi class
 ```
 
-- ### Loop
+## Loop
 
 ```bash
 #!/bin/bash
@@ -218,7 +218,7 @@ do
 done
 ```
 
-- ### Case
+## Case
 
 ```bash
 #!/bin/bash
@@ -258,7 +258,7 @@ esac
 # Dir name is unix
 ```
 
-- ### Array
+## Array
 
 ```bash
 #!/bin/sh
@@ -275,7 +275,7 @@ echo "Second Method:${NAME[@]}"
 echo ${#NAME[*]} # Chiều dài mảng
 ```
 
-- ### Functions
+## Functions
 
 ```bash
 #!/bin/bash

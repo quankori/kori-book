@@ -1,6 +1,6 @@
 # Golang Concurrency
 
-- ### Gorountines
+## Gorountines
 
 1. Goroutines cực kỳ nhẹ so với các luồng hệ điều hành.
 2. Kích thước ngăn xếp rất nhỏ 2KB so với 8MB kích thước ngăn xếp cho các luồng hệ điều hành.

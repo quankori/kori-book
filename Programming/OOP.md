@@ -1,6 +1,6 @@
 # Object-oriented programming
 
-- ### Kế thừa (Inheritance)
+## Kế thừa (Inheritance)
 
   - Sử dụng lại hàm của lớp khác thông qua kế thừa lớp đó.
 
@@ -26,7 +26,7 @@
     }
     ```
 
-- ### Đa hình (Polymorphism)
+## Đa hình (Polymorphism)
 
   - Đa hình lúc runtime là quá trình gọi phương thức đã được ghi đè trong thời gian thực thi chương trình. Trong quá trình này, một phương thức được ghi đè được gọi thông qua biến tham chiếu của một lớp cha.
 
@@ -49,7 +49,7 @@
     }
     ```
 
-- ### Trừu tượng (Abstraction)
+## Trừu tượng (Abstraction)
 
   - Tính trừu tượng là một tiến trình ẩn các cài đặt chi tiết và chỉ hiển thị tính năng tới người dùng.
   - Có 2 cách dùng là interface và abstract.
@@ -92,7 +92,7 @@
     }
     ```
 
-- ### Đóng gói (Encapsulation)
+## Đóng gói (Encapsulation)
 
   - Bạn có thể tạo lớp read-only hoặc write-only bằng việc cài đặt phương thức setter hoặc getter.
 

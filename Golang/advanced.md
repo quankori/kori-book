@@ -1,6 +1,6 @@
 # Golang Advanced
 
-- ### Goroutines
+## Goroutines
 
 ```go
 func numbers() {
@@ -25,7 +25,7 @@ func Goroutines() {
 }
 ```
 
-- ### Mutex
+## Mutex
 
 ```go
 // Khai báo một instance mutex
@@ -65,14 +65,14 @@ func Mutex() {
 }
 ```
 
-- ### Channel
+## Channel
 
 ```go
 
 func send(c chan int) {
 	for i := 0; i < 5; i++ {
 		fmt.Printf("send %v to channel\n", i)
-		c <- ### i // send i to channel
+		c <## i // send i to channel
 	}
 }
 
@@ -94,7 +94,7 @@ func Channel() {
 }
 ```
 
-- ### Marshal
+## Marshal
 
 ```go
 type person struct {

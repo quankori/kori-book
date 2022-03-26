@@ -1,6 +1,6 @@
 # Solidity Basic
 
-- ### Common function types
+## Common function types
 
 | Loại     | Công dụng                                                          |
 | -------- | ------------------------------------------------------------------ |
@@ -11,7 +11,7 @@
 | pure     | Function will not modify or even read the contract's data          |
 | payable  | When someone call this function they might send ether along        |
 
-- ### Running contract functions
+## Running contract functions
 
 | Calling                           | Sending                      |
 | --------------------------------- | ---------------------------- |
@@ -20,7 +20,7 @@
 | Runs instally                     | Returns the transaction hash |
 | Free                              | Const money!                 |
 
-- ### Msg global variable
+## Msg global variable
 
 | Types      | Value                    |
 | ---------- | ------------------------ |
@@ -29,7 +29,7 @@
 | msg.sender | address of account       |
 | msg.value  | amount of ether (in wei) |
 
-- ### Basic Types
+## Basic Types
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -58,7 +58,7 @@ contract DataTypes {
 }
 ```
 
-- ### Mapping
+## Mapping
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -81,7 +81,7 @@ contract Mappings {
 }
 ```
 
-- ### Struct
+## Struct
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -104,7 +104,7 @@ contract Structs {
 }
 ```
 
-- ### Require (Validate)
+## Require (Validate)
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -120,7 +120,7 @@ contract RequireStatements {
 }
 ```
 
-- ### Modifier
+## Modifier
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -150,7 +150,7 @@ contract CustomModifiers {
 }
 ```
 
-- ### Scope
+## Scope
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -168,7 +168,7 @@ contract AccessModifiers {
 }
 ```
 
-- ### Inheritance
+## Inheritance
 
 ```solidity
 pragma solidity >=0.5.0;
@@ -184,4 +184,19 @@ contract Car is Vehicle {
 contract Van is Vehicle {
 
 }
+```
+
+## Tương tác qua một smart contract bất kỳ
+
+```solidity
+(bool status, bytes memory ret) = address_value.call{
+    value: amount_value
+}(data_value_bytes);
+```
+
+## Tương tác qua một smart contract được định nghĩa sẵn
+
+```solidity
+IERC20 token = IERC20(currency);
+token.transferFrom(msg.sender, _admin, amount);
 ```

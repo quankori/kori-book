@@ -1,42 +1,42 @@
 # Docker CheatSheet
 
-- ### Dừng toàn bộ docker
+## Dừng toàn bộ docker
 
 ```bash
 docker stop $(docker ps -a -q)
 ```
 
-- ### Xóa toàn bộ images
+## Xóa toàn bộ images
 
 ```bash
 docker rmi -f $(docker images -a -q)
 ```
 
-- ### Xóa toàn bộ containers
+## Xóa toàn bộ containers
 
 ```bash
 docker rm $(docker ps -a -q)
 ```
 
-- ### Xem các images trong máy
+## Xem các images trong máy
 
 ```bash
 docker images
 ```
 
-- ### Tải image
+## Tải image
 
 ```bash
 docker pull image_name:version
 ```
 
-- ### Xóa image chỉ định
+## Xóa image chỉ định
 
 ```bash
 docker image rm image_name:version
 ```
 
-- ### Truy cập image
+## Truy cập image
 
 ```bash
 # condition:
@@ -47,55 +47,55 @@ docker image rm image_name:version
 docker run -it image_name /bin/bash
 ```
 
-- ### Xem container đang chạy
+## Xem container đang chạy
 
 ```bash
 docker ps
 ```
 
-- ### Truy cập container đang chạy
+## Truy cập container đang chạy
 
 ```bash
 docker attach container_id
 ```
 
-- ### Chạy lại container
+## Chạy lại container
 
 ```bash
 docker start container_id
 ```
 
-- ### Dừng container
+## Dừng container
 
 ```bash
 docker stop container_id
 ```
 
-- ### Xóa container
+## Xóa container
 
 ```bash
 docker rm container_id
 ```
 
-- ### Tương tác với container
+## Tương tác với container
 
 ```bash
 docker exec -it container_id /bin/bash
 ```
 
-- ### Log container
+## Log container
 
 ```bash
 docker logs -f container_id
 ```
 
-- ### Copy file to container
+## Copy file to container
 
 ```bash
 docker cp <local_path> 1d8:/<remote_path>
 ```
 
-- ### Docker log tail container
+## Docker log tail container
 
 ```bash
 docker logs -t --tail 1000 container 2>&1 | grep -i error
