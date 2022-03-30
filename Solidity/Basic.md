@@ -186,7 +186,7 @@ contract Van is Vehicle {
 }
 ```
 
-## Tương tác qua một smart contract bất kỳ
+## Call
 
 ```solidity
 (bool status, bytes memory ret) = address_value.call{
@@ -194,7 +194,15 @@ contract Van is Vehicle {
 }(data_value_bytes);
 ```
 
-## Tương tác qua một smart contract được định nghĩa sẵn
+## Delegate
+
+```solidity
+(bool success, bytes memory data) = _contract.delegatecall(
+    abi.encodeWithSignature("setVars(uint256)", _num)
+);
+```
+
+## Call with interface
 
 ```solidity
 IERC20 token = IERC20(currency);
