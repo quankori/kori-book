@@ -1,4 +1,4 @@
-# Solidity Basic
+# Solidity Book
 
 ## Common function types
 
