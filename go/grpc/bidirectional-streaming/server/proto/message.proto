@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "./services";
+
+package services;
+
+message StreamRequest {
+  string message = 1;
+}
+
+message StreamResponse {
+  string message = 1;
+}
+
+service StreamService {
+  rpc BidirectionalStream (stream StreamRequest) returns (stream StreamResponse);
+}
