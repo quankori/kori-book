@@ -1,19 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { Controller } from '@nestjs/common';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @MessagePattern('send_message')
-  handleSendMessage(data: string): string {
-    console.log('Received message:', data);
-    return 'Ok';
+  @MessagePattern('test') // Listen for specific patterns
+  handleMessage(data: Record<string, unknown>): string {
+    console.log('Received message from RabbitMQ:', data);
+    // Process the message
+    return 'Response from NestJS to Golang'; // Return response
   }
 }

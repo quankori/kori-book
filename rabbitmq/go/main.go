@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"log"
-	"math/rand"
-	"net/http"
-	"time"
+	"os"
+	"os/signal"
+	"syscall"
 
-	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
 )
 
@@ -17,93 +16,80 @@ func failOnError(err error, msg string) {
 	}
 }
 
-// Function to publish message to RabbitMQ and wait for the response
-func publishAndWaitForResponse(message string) (string, error) {
+func main() {
+	// Connect to RabbitMQ server
 	conn, err := amqp.Dial("amqp://user:password@rabbitmq:5672")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
+	// Create a channel
 	ch, err := conn.Channel()
 	failOnError(err, "Failed to open a channel")
 	defer ch.Close()
 
-	// Declare a reply queue to get the response back
-	replyQueue, err := ch.QueueDeclare(
-		"",    // Name of the reply queue (empty string lets RabbitMQ generate a unique name)
-		false, // Durable
-		false, // Delete when unused
-		true,  // Exclusive
-		false, // No-wait
-		nil,   // Arguments
+	// Declare a custom exchange
+	exchangeName := "my_exchange"
+	err = ch.ExchangeDeclare(
+		exchangeName, // name of the exchange
+		"direct",     // type (direct exchange routes based on routing key)
+		true,         // durable
+		false,        // auto-delete when unused
+		false,        // internal
+		false,        // no-wait
+		nil,          // arguments
 	)
-	failOnError(err, "Failed to declare a reply queue")
+	failOnError(err, "Failed to declare an exchange")
 
-	// Set up a channel to consume the response
-	msgs, err := ch.Consume(
-		replyQueue.Name, // Queue name
-		"",              // Consumer tag
-		true,            // Auto-ack
-		false,           // Exclusive
-		false,           // No-local
-		false,           // No-wait
-		nil,             // Args
+	// Declare the queue
+	queueName := "nestjs_queue"
+	_, err = ch.QueueDeclare(
+		queueName, // name of the queue
+		true,      // durable
+		false,     // delete when unused
+		false,     // exclusive
+		false,     // no-wait
+		nil,       // arguments
 	)
-	failOnError(err, "Failed to register a consumer")
+	failOnError(err, "Failed to declare a queue")
 
-	// Generate a unique correlation ID
-	corrID := randomString(32)
+	// Bind the queue to the custom exchange with routing key "test"
+	err = ch.QueueBind(
+		queueName,    // queue name
+		"test",       // routing key
+		exchangeName, // custom exchange name
+		false,
+		nil,
+	)
+	failOnError(err, "Failed to bind the queue")
 
-	// Publish the message with the correlation ID and reply queue
+	// Publish a message with routing key "test" to the custom exchange
+	body := "Hello from Golang!"
 	err = ch.Publish(
-		"",             // Exchange
-		"send_message", // Routing key
-		false,          // Mandatory
-		false,          // Immediate
+		exchangeName, // publish to custom exchange
+		"test",       // routing key (matches @MessagePattern("test") in NestJS)
+		false,        // mandatory
+		false,        // immediate
 		amqp.Publishing{
-			ContentType:   "text/plain",
-			CorrelationId: corrID,
-			ReplyTo:       replyQueue.Name, // Reply-to header with reply queue
-			Body:          []byte(message),
+			ContentType: "text/plain",
+			Body:        []byte(body),
 		})
 	failOnError(err, "Failed to publish a message")
 
-	log.Printf(" [x] Sent %s", message)
+	fmt.Println(" [x] Sent message:", body)
 
-	// Wait for a response on the reply queue
-	for msg := range msgs {
-		if msg.CorrelationId == corrID {
-			// Return the response message if the correlation ID matches
-			log.Printf(" [x] Received response: %s", msg.Body)
-			return string(msg.Body), nil
-		}
-	}
+	// Keep the program alive until an interrupt signal is received
+	forever := make(chan bool)
 
-	return "", fmt.Errorf("No response received")
-}
+	// Handle interrupt signals to gracefully exit the program
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
 
-// Utility function to generate a random string for correlation IDs
-func randomString(length int) string {
-	rand.Seed(time.Now().UnixNano())
-	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-	b := make([]rune, length)
-	for i := range b {
-		b[i] = letters[rand.Intn(len(letters))]
-	}
-	return string(b)
-}
+	go func() {
+		sig := <-sigs
+		fmt.Printf("Received signal: %s. Exiting...\n", sig)
+		close(forever)
+	}()
 
-func main() {
-	r := gin.Default()
-
-	r.GET("/send", func(c *gin.Context) {
-		message := "Hello from Gin to NestJS!"
-		response, err := publishAndWaitForResponse(message)
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-		c.JSON(http.StatusOK, gin.H{"message": response})
-	})
-
-	r.Run(":4000")
+	fmt.Println(" [*] Waiting for messages. To exit press CTRL+C")
+	<-forever // Blocks the program from exiting
 }
