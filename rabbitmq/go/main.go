@@ -4,17 +4,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand"
 	"net/http"
-	"strconv"
 	"time"
+
+	"math/rand"
 
 	"github.com/gin-gonic/gin"
 	"github.com/streadway/amqp"
 )
 
 type Message struct {
-	Pattern string `json:"pattern"` // Pattern in the message payload
+	ID      string `json:"id"`
+	Pattern string `json:"pattern"` // Add the pattern directly in the message payload
 	Body    string `json:"body"`
 	Data    string `json:"data"`
 }
@@ -25,120 +26,146 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func randomCorrelationID() string {
-	rand.Seed(time.Now().UnixNano())
-	return strconv.Itoa(rand.Int())
-}
-
-// sendMessageWithResponse sends a message to RabbitMQ and waits for a response
-func sendMessageWithResponse(message Message, responseChan chan<- string) {
+func sendMessageToQueue(message Message) (string, error) {
 	// Connect to RabbitMQ server
 	conn, err := amqp.Dial("amqp://user:password@rabbitmq:5672")
-	failOnError(err, "Failed to connect to RabbitMQ")
+	if err != nil {
+		return "", fmt.Errorf("Failed to connect to RabbitMQ: %w", err)
+	}
 	defer conn.Close()
 
 	// Create a channel
 	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
+	if err != nil {
+		return "", fmt.Errorf("Failed to open a channel: %w", err)
+	}
 	defer ch.Close()
 
-	// Declare the main queue (where the message will be sent)
+	// Declare the main queue
 	q, err := ch.QueueDeclare(
-		"queue_message", // Queue name (must match the one in NestJS)
+		"queue_message", // Queue name
 		true,            // Durable
 		false,           // Delete when unused
 		false,           // Exclusive
 		false,           // No-wait
 		nil,             // Arguments
 	)
-	failOnError(err, "Failed to declare a queue")
+	if err != nil {
+		return "", fmt.Errorf("Failed to declare a queue: %w", err)
+	}
 
-	// Declare a reply queue (temporary queue for receiving responses)
+	// Declare a temporary queue for the reply
 	replyQueue, err := ch.QueueDeclare(
-		"",    // Empty name, RabbitMQ will create a random name for this temporary queue
-		false, // Non-durable
-		false, // Auto-delete when unused
-		true,  // Exclusive to this connection
+		"",    // Name (empty means RabbitMQ will generate a unique name)
+		false, // Durable
+		true,  // Auto-delete (true to auto-delete)
+		true,  // Exclusive
 		false, // No-wait
 		nil,   // Arguments
 	)
-	failOnError(err, "Failed to declare a reply queue")
+	if err != nil {
+		return "", fmt.Errorf("Failed to declare a reply queue: %w", err)
+	}
 
-	// Create a channel to consume responses from the reply queue
-	messages, err := ch.Consume(
-		replyQueue.Name, // The reply queue
-		"",              // Consumer tag
-		true,            // Auto-ack (can be set to false to manually ack)
-		false,           // Exclusive
-		false,           // No-local
-		false,           // No-wait
-		nil,             // Args
-	)
-	failOnError(err, "Failed to register a consumer")
-
-	// Generate a unique correlation ID
-	correlationID := randomCorrelationID()
+	// Create a correlation ID for this request
+	corrId := randomString(32)
+	message.ID = corrId
 
 	// Serialize the message to JSON
 	body, err := json.Marshal(message)
-	failOnError(err, "Failed to encode message to JSON")
+	if err != nil {
+		return "", fmt.Errorf("Failed to encode message to JSON: %w", err)
+	}
 
-	// Publish the message with reply-to and correlation ID
+	// Publish the message with a ReplyTo and CorrelationId
 	err = ch.Publish(
 		"",     // No exchange
-		q.Name, // Routing key (queue name)
+		q.Name, // Queue name (routing key = queue name)
 		false,  // Mandatory
 		false,  // Immediate
 		amqp.Publishing{
 			ContentType:   "application/json",
+			CorrelationId: corrId,
+			ReplyTo:       replyQueue.Name, // This is the queue where we expect the response
 			Body:          body,
-			ReplyTo:       replyQueue.Name, // Set the callback queue for the response
-			CorrelationId: correlationID,   // Unique correlation ID
 		})
-	failOnError(err, "Failed to publish a message")
+	if err != nil {
+		return "", fmt.Errorf("Failed to publish a message: %w", err)
+	}
 
-	fmt.Printf("Message sent with pattern %s: %s\n", message.Pattern, string(body))
+	// Channel to receive messages
+	msgs := make(chan string)
 
-	// Wait for the response in a goroutine
+	// Consume the response from the temporary reply queue
 	go func() {
-		for d := range messages {
-			if d.CorrelationId == correlationID { // Check the correlation ID to match the response
-				// Send the response to the response channel
-				responseChan <- fmt.Sprintf("Received response for correlation ID %s: %s", correlationID, d.Body)
-				break
+		deliveries, err := ch.Consume(
+			replyQueue.Name, // Queue name
+			"",              // Consumer tag
+			true,            // Auto-ack
+			false,           // Exclusive
+			false,           // No-local
+			false,           // No-wait
+			nil,             // Arguments
+		)
+		if err != nil {
+			log.Printf("Failed to register a consumer: %s", err)
+			return
+		}
+
+		// Wait for the response and match the correlation ID
+		for d := range deliveries {
+			if corrId == d.CorrelationId {
+				// We have received the correct response
+				log.Printf("Received response: %s", d.Body)
+				msgs <- string(d.Body)
+				return
 			}
 		}
 	}()
+
+	// Wait for a response with a timeout
+	select {
+	case response := <-msgs:
+		return response, nil
+	case <-time.After(10 * time.Second): // Timeout of 10 seconds
+		return "", fmt.Errorf("Request timed out waiting for response")
+	}
+}
+
+func randomString(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
 }
 
 func main() {
-	// Set up the Gin router
-	r := gin.Default()
+	// Initialize the Gin router
+	router := gin.Default()
 
-	// POST endpoint to trigger sending a message to RabbitMQ
-	r.GET("/send", func(c *gin.Context) {
-		msg1 := Message{
-			Pattern: "pattern_one", // Set the pattern directly in the payload
-			Body:    "Hello from Golang to pattern_1",
+	// Define the POST endpoint to send a message to RabbitMQ
+	router.GET("/send", func(c *gin.Context) {
+		message := Message{
+			Pattern: "pattern_one",
+			Body:    "Hello from Golang",
 			Data:    "test",
+			ID:      "",
 		}
 
-		// Create a channel to receive the response asynchronously
-		responseChan := make(chan string)
+		// Send the message to RabbitMQ
+		_, err := sendMessageToQueue(message)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
 
-		// Send the message in a goroutine
-		sendMessageWithResponse(msg1, responseChan)
-
-		// Immediately respond to the HTTP request while processing the RabbitMQ message asynchronously
-		c.JSON(http.StatusAccepted, gin.H{"message": "Message sent, waiting for response..."})
-
-		// Retrieve the response from the goroutine and log it when received
-		go func() {
-			response := <-responseChan
-			fmt.Println(response) // Print the response when it is received
-		}()
+		// Return success response
+		c.JSON(http.StatusOK, gin.H{"message": "Message sent successfully"})
 	})
 
-	// Run the server
-	r.Run(":4000")
+	// Run the server on port 8080
+	router.Run(":4000")
 }

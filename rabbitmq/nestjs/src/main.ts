@@ -9,7 +9,6 @@ import { Message } from 'amqplib';
 export class CustomRMQServer extends ServerRMQ {
   async handleMessage(message: Message, channel: any): Promise<void> {
     // Proceed with the normal handling
-    console.log(message)
     super.handleMessage(message, channel);
   }
 }
