@@ -1,1 +1,0 @@
-# Learn algorithm with Typescript
